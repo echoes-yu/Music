@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改音乐试题')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-item-edit" th:object="${musicItem}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">题库编号：</label>
+                <div class="col-sm-8">
+                    <input name="pid" th:field="*{pid}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">试题编号：</label>
+                <div class="col-sm-8">
+                    <input name="itemNo" th:field="*{itemNo}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">声音性别：</label>
+                <div class="col-sm-8">
+                    <select name="voiceSex" class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{voiceSex}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">题目名称：</label>
+                <div class="col-sm-8">
+                    <input name="itemName" th:field="*{itemName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">音频：</label>
+                <div class="col-sm-8">
+                    <input name="voice" th:field="*{voice}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">音谱图：</label>
+                <div class="col-sm-8">
+                    <input name="voiceImg" th:field="*{voiceImg}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">答案：</label>
+                <div class="col-sm-8">
+                    <input name="solution" th:field="*{solution}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">答案解析：</label>
+                <div class="col-sm-8">
+                    <input name="solutionAnalysis" th:field="*{solutionAnalysis}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">答案A：</label>
+                <div class="col-sm-8">
+                    <input name="answerA" th:field="*{answerA}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">答案B：</label>
+                <div class="col-sm-8">
+                    <input name="answerB" th:field="*{answerB}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">答案C：</label>
+                <div class="col-sm-8">
+                    <input name="answerC" th:field="*{answerC}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">答案D：</label>
+                <div class="col-sm-8">
+                    <input name="answerD" th:field="*{answerD}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/item";
+        $("#form-item-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-item-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.music.mapper.MusicLibraryMapper">
+    
+    <resultMap type="MusicLibrary" id="MusicLibraryResult">
+        <result property="id"    column="id"    />
+        <result property="ptype"    column="ptype"    />
+        <result property="type"    column="type"    />
+        <result property="trainingType"    column="training_type"    />
+        <result property="name"    column="name"    />
+        <result property="trainingTime"    column="training_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectMusicLibraryVo">
+        select id, ptype, type, training_type, name, training_time, create_by, create_time, update_by, update_time, remark, del_flag from music_library
+    </sql>
+
+    <select id="selectMusicLibraryList" parameterType="MusicLibrary" resultMap="MusicLibraryResult">
+        <include refid="selectMusicLibraryVo"/>
+        <where>  
+            <if test="ptype != null  and ptype != ''"> and ptype = #{ptype}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="trainingType != null  and trainingType != ''"> and training_type = #{trainingType}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="trainingTime != null "> and training_time = #{trainingTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectMusicLibraryById" parameterType="String" resultMap="MusicLibraryResult">
+        <include refid="selectMusicLibraryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMusicLibrary" parameterType="MusicLibrary">
+        insert into music_library
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="ptype != null  and ptype != ''">ptype,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="trainingType != null  and trainingType != ''">training_type,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="trainingTime != null ">training_time,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="ptype != null  and ptype != ''">#{ptype},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="trainingType != null  and trainingType != ''">#{trainingType},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="trainingTime != null ">#{trainingTime},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMusicLibrary" parameterType="MusicLibrary">
+        update music_library
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ptype != null  and ptype != ''">ptype = #{ptype},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="trainingType != null  and trainingType != ''">training_type = #{trainingType},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="trainingTime != null ">training_time = #{trainingTime},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMusicLibraryById" parameterType="String">
+        delete from music_library where id = #{id}
+    </delete>
+
+    <delete id="deleteMusicLibraryByIds" parameterType="String">
+        delete from music_library where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,64 @@
+package com.ruoyi.music.mapper;
+
+import com.ruoyi.music.domain.MusicItem;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**
+ * 音乐试题Mapper接口
+ * 
+ * @author linpq
+ * @date 2019-10-27
+ */
+@Repository
+public interface MusicItemMapper
+{
+    /**
+     * 查询音乐试题
+     * 
+     * @param id 音乐试题ID
+     * @return 音乐试题
+     */
+    public MusicItem selectMusicItemById(String id);
+
+    /**
+     * 查询音乐试题列表
+     * 
+     * @param musicItem 音乐试题
+     * @return 音乐试题集合
+     */
+    public List<MusicItem> selectMusicItemList(MusicItem musicItem);
+
+    /**
+     * 新增音乐试题
+     * 
+     * @param musicItem 音乐试题
+     * @return 结果
+     */
+    public int insertMusicItem(MusicItem musicItem);
+
+    /**
+     * 修改音乐试题
+     * 
+     * @param musicItem 音乐试题
+     * @return 结果
+     */
+    public int updateMusicItem(MusicItem musicItem);
+
+    /**
+     * 删除音乐试题
+     * 
+     * @param id 音乐试题ID
+     * @return 结果
+     */
+    public int deleteMusicItemById(String id);
+
+    /**
+     * 批量删除音乐试题
+     * 
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    public int deleteMusicItemByIds(String[] ids);
+}
