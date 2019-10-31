@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.music;
 
-import java.util.List;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -10,32 +9,34 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.music.domain.MusicLibrary;
 import com.ruoyi.music.service.IMusicLibraryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 
 /**
- * 音乐题库Controller
+ * 音乐题库模块
  * 
  * @author linpq
- * @date 2019-10-27
+ * @date 2019-10-31
  */
-@Controller
-@RequestMapping("/system/library")
+@Api("音乐题库")
+@RestController
+@RequestMapping("/music/library")
 public class MusicLibraryController extends BaseController
 {
-    private String prefix = "system/library";
+    private String prefix = "music/library";
 
     @Autowired
     private IMusicLibraryService musicLibraryService;
 
-    @RequiresPermissions("system:library:view")
+    @RequiresPermissions("music:library:view")
     @GetMapping()
     public String library()
     {
@@ -45,9 +46,9 @@ public class MusicLibraryController extends BaseController
     /**
      * 查询音乐题库列表
      */
-    @RequiresPermissions("system:library:list")
+    @RequiresPermissions("music:library:list")
     @PostMapping("/list")
-    @ResponseBody
+    @ApiOperation("查询音乐题库列表")
     public TableDataInfo list(MusicLibrary musicLibrary)
     {
         startPage();
@@ -58,9 +59,9 @@ public class MusicLibraryController extends BaseController
     /**
      * 导出音乐题库列表
      */
-    @RequiresPermissions("system:library:export")
+    @RequiresPermissions("music:library:export")
     @PostMapping("/export")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicLibrary", value = "", required = true, dataType = "MusicLibrary", paramType = "path")
     public AjaxResult export(MusicLibrary musicLibrary)
     {
         List<MusicLibrary> list = musicLibraryService.selectMusicLibraryList(musicLibrary);
@@ -80,10 +81,10 @@ public class MusicLibraryController extends BaseController
     /**
      * 新增保存音乐题库
      */
-    @RequiresPermissions("system:library:add")
+    @RequiresPermissions("music:library:add")
     @Log(title = "音乐题库", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicLibrary", value = "新增保存音乐题库", required = true, dataType = "MusicLibrary")
     public AjaxResult addSave(MusicLibrary musicLibrary)
     {
         return toAjax(musicLibraryService.insertMusicLibrary(musicLibrary));
@@ -93,20 +94,20 @@ public class MusicLibraryController extends BaseController
      * 修改音乐题库
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") String id, ModelMap mmap)
+    public String edit(@PathVariable("id") String id, ModelMap map)
     {
         MusicLibrary musicLibrary = musicLibraryService.selectMusicLibraryById(id);
-        mmap.put("musicLibrary", musicLibrary);
+        map.put("musicLibrary", musicLibrary);
         return prefix + "/edit";
     }
 
     /**
      * 修改保存音乐题库
      */
-    @RequiresPermissions("system:library:edit")
+    @RequiresPermissions("music:library:edit")
     @Log(title = "音乐题库", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicLibrary", value = "修改保存音乐题库", required = true, dataType = "MusicLibrary")
     public AjaxResult editSave(MusicLibrary musicLibrary)
     {
         return toAjax(musicLibraryService.updateMusicLibrary(musicLibrary));
@@ -115,10 +116,11 @@ public class MusicLibraryController extends BaseController
     /**
      * 删除音乐题库
      */
-    @RequiresPermissions("system:library:remove")
+    @RequiresPermissions("music:library:remove")
     @Log(title = "音乐题库", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
-    @ResponseBody
+    @ApiOperation("删除音乐题库")
+    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicLibraryService.deleteMusicLibraryByIds(ids));

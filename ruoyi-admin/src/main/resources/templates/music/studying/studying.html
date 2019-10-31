@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('成员学习列列表')" />
+    <th:block th:include="include :: header('成员学习记录列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -35,16 +35,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:studying:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="music:studying:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:studying:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="music:studying:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:studying:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="music:studying:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:studying:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="music:studying:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -55,10 +55,11 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:studying:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:studying:remove')}]];
+        var editFlag = [[${@permission.hasPermi('music:studying:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('music:studying:remove')}]];
         var isCollectionDatas = [[${@dict.getType('sys_yes_no')}]];
-        var prefix = ctx + "system/studying";
+        var delFlagDatas = [[${@dict.getType('sys_is_delete')}]];
+        var prefix = ctx + "music/studying";
 
         $(function() {
             var options = {
@@ -67,7 +68,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "成员学习列",
+                modalName: "成员学习记录",
                 columns: [{
                     checkbox: true
                 },

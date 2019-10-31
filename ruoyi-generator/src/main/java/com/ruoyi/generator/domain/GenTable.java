@@ -6,12 +6,15 @@ import javax.validation.constraints.NotBlank;
 import com.ruoyi.common.constant.GenConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.utils.StringUtils;
+import io.swagger.annotations.ApiModel;
 
 /**
  * 业务表 gen_table
  * 
  * @author ruoyi
  */
+@ApiModel("")
+
 public class GenTable extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

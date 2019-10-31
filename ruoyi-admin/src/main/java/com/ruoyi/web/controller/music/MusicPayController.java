@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.music;
 
-import java.util.List;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -10,32 +9,34 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.music.domain.MusicPay;
 import com.ruoyi.music.service.IMusicPayService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 
 /**
- * 支付信息Controller
+ * 支付信息模块
  * 
  * @author linpq
- * @date 2019-10-27
+ * @date 2019-10-31
  */
-@Controller
-@RequestMapping("/system/pay")
+@Api("支付信息")
+@RestController
+@RequestMapping("/music/pay")
 public class MusicPayController extends BaseController
 {
-    private String prefix = "system/pay";
+    private String prefix = "music/pay";
 
     @Autowired
     private IMusicPayService musicPayService;
 
-    @RequiresPermissions("system:pay:view")
+    @RequiresPermissions("music:pay:view")
     @GetMapping()
     public String pay()
     {
@@ -45,9 +46,9 @@ public class MusicPayController extends BaseController
     /**
      * 查询支付信息列表
      */
-    @RequiresPermissions("system:pay:list")
+    @RequiresPermissions("music:pay:list")
     @PostMapping("/list")
-    @ResponseBody
+    @ApiOperation("查询支付信息列表")
     public TableDataInfo list(MusicPay musicPay)
     {
         startPage();
@@ -58,9 +59,9 @@ public class MusicPayController extends BaseController
     /**
      * 导出支付信息列表
      */
-    @RequiresPermissions("system:pay:export")
+    @RequiresPermissions("music:pay:export")
     @PostMapping("/export")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicPay", value = "", required = true, dataType = "MusicPay", paramType = "path")
     public AjaxResult export(MusicPay musicPay)
     {
         List<MusicPay> list = musicPayService.selectMusicPayList(musicPay);
@@ -80,10 +81,10 @@ public class MusicPayController extends BaseController
     /**
      * 新增保存支付信息
      */
-    @RequiresPermissions("system:pay:add")
+    @RequiresPermissions("music:pay:add")
     @Log(title = "支付信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicPay", value = "新增保存支付信息", required = true, dataType = "MusicPay")
     public AjaxResult addSave(MusicPay musicPay)
     {
         return toAjax(musicPayService.insertMusicPay(musicPay));
@@ -93,20 +94,20 @@ public class MusicPayController extends BaseController
      * 修改支付信息
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") String id, ModelMap mmap)
+    public String edit(@PathVariable("id") String id, ModelMap map)
     {
         MusicPay musicPay = musicPayService.selectMusicPayById(id);
-        mmap.put("musicPay", musicPay);
+        map.put("musicPay", musicPay);
         return prefix + "/edit";
     }
 
     /**
      * 修改保存支付信息
      */
-    @RequiresPermissions("system:pay:edit")
+    @RequiresPermissions("music:pay:edit")
     @Log(title = "支付信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicPay", value = "修改保存支付信息", required = true, dataType = "MusicPay")
     public AjaxResult editSave(MusicPay musicPay)
     {
         return toAjax(musicPayService.updateMusicPay(musicPay));
@@ -115,10 +116,11 @@ public class MusicPayController extends BaseController
     /**
      * 删除支付信息
      */
-    @RequiresPermissions("system:pay:remove")
+    @RequiresPermissions("music:pay:remove")
     @Log(title = "支付信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
-    @ResponseBody
+    @ApiOperation("删除支付信息")
+    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicPayService.deleteMusicPayByIds(ids));

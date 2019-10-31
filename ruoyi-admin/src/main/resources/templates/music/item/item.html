@@ -12,18 +12,14 @@
                         <ul>
                             <li>
                                 <p>题库编号：</p>
-                                <input type="text" name="pid"/>
+                                <select name="pid" th:with="type=${@dict.getType('')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
                             </li>
                             <li>
                                 <p>试题编号：</p>
                                 <input type="text" name="itemNo"/>
-                            </li>
-                            <li>
-                                <p>声音性别：</p>
-                                <select name="voiceSex" th:with="type=${@dict.getType('sys_user_sex')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                                </select>
                             </li>
                             <li>
                                 <p>题目名称：</p>
@@ -39,16 +35,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:item:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="music:item:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:item:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="music:item:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:item:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="music:item:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:item:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="music:item:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -59,10 +55,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:item:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:item:remove')}]];
-        var voiceSexDatas = [[${@dict.getType('sys_user_sex')}]];
-        var prefix = ctx + "system/item";
+        var editFlag = [[${@permission.hasPermi('music:item:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('music:item:remove')}]];
+        var prefix = ctx + "music/item";
 
         $(function() {
             var options = {
@@ -90,10 +85,7 @@
                 },
                 {
                     field : 'voiceSex', 
-                    title : '声音性别',
-                    formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(voiceSexDatas, value);
-                    }
+                    title : '声音性别'
                 },
                 {
                     field : 'itemName', 

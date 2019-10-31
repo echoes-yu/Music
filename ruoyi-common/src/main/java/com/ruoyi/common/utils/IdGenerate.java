@@ -8,6 +8,7 @@ import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 
 import java.io.Serializable;
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -40,6 +41,14 @@ public class IdGenerate implements SessionIdGenerator {
 		byte[] randomBytes = new byte[length];
 		random.nextBytes(randomBytes);
 		return Encodes.encodeBase62(randomBytes);
+	}
+
+
+	/**
+	 * 基于Base62编码的SecureRandom随机生成bytes.
+	 */
+	public static String idStr(Date date) {
+		return DateUtils.parseDateToStr("yyyyMMddHHmmssSSS",date)+"00"+IdGenerate.randomBase62(3);
 	}
 
 	@Override

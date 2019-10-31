@@ -2135,7 +2135,7 @@
             that.$bsContainer.css(containerPosition);
           };
 
-      this.$button.on('click.bs.dropdown.data-api', function () {
+      this.$button.on('click.bs.dropdown.data-apiMusic', function () {
         if (that.isDisabled()) {
           return;
         }
@@ -2331,7 +2331,7 @@
         }
       });
 
-      this.$button.on('click.bs.dropdown.data-api', function () {
+      this.$button.on('click.bs.dropdown.data-apiMusic', function () {
         if (!that.$newElement.hasClass(classNames.SHOW)) {
           that.setSize();
         }
@@ -2566,13 +2566,13 @@
       var that = this,
           noResults = document.createElement('li');
 
-      this.$button.on('click.bs.dropdown.data-api', function () {
+      this.$button.on('click.bs.dropdown.data-apiMusic', function () {
         if (!!that.$searchbox.val()) {
           that.$searchbox.val('');
         }
       });
 
-      this.$searchbox.on('click.bs.dropdown.data-api focus.bs.dropdown.data-api touchend.bs.dropdown.data-api', function (e) {
+      this.$searchbox.on('click.bs.dropdown.data-apiMusic focus.bs.dropdown.data-apiMusic touchend.bs.dropdown.data-apiMusic', function (e) {
         e.stopPropagation();
       });
 
@@ -2733,7 +2733,7 @@
 
       if (e) e.stopPropagation();
 
-      this.$button.trigger('click.bs.dropdown.data-api');
+      this.$button.trigger('click.bs.dropdown.data-apiMusic');
     },
 
     keydown: function (e) {
@@ -2765,7 +2765,7 @@
           (e.which >= 65 && e.which <= 90)
         )
       ) {
-        that.$button.trigger('click.bs.dropdown.data-api');
+        that.$button.trigger('click.bs.dropdown.data-apiMusic');
 
         if (that.options.liveSearch) {
           that.$searchbox.trigger('focus');
@@ -2775,7 +2775,7 @@
 
       if (e.which === keyCodes.ESCAPE && isActive) {
         e.preventDefault();
-        that.$button.trigger('click.bs.dropdown.data-api').trigger('focus');
+        that.$button.trigger('click.bs.dropdown.data-apiMusic').trigger('focus');
       }
 
       if (isArrowKey) { // if up or down
@@ -3118,7 +3118,7 @@
   };
 
   $(document)
-    .off('keydown.bs.dropdown.data-api')
+    .off('keydown.bs.dropdown.data-apiMusic')
     .on('keydown' + EVENT_KEY, '.bootstrap-select [data-toggle="dropdown"], .bootstrap-select [role="listbox"], .bootstrap-select .bs-searchbox input', Selectpicker.prototype.keydown)
     .on('focusin.modal', '.bootstrap-select [data-toggle="dropdown"], .bootstrap-select [role="listbox"], .bootstrap-select .bs-searchbox input', function (e) {
       e.stopPropagation();
@@ -3126,7 +3126,7 @@
 
   // SELECTPICKER DATA-API
   // =====================
-  $(window).on('load' + EVENT_KEY + '.data-api', function () {
+  $(window).on('load' + EVENT_KEY + '.data-apiMusic', function () {
     $('.selectpicker').each(function () {
       var $selectpicker = $(this);
       Plugin.call($selectpicker, $selectpicker.data());

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.music.mapper.MusicMemberMapper">
+    
+    <resultMap type="MusicMember" id="MusicMemberResult">
+        <result property="id"    column="id"    />
+        <result property="username"    column="username"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="img"    column="img"    />
+        <result property="isMember"    column="is_member"    />
+        <result property="memberTime"    column="member_time"    />
+        <result property="memberValidNum"    column="member_valid_num"    />
+        <result property="phone"    column="phone"    />
+        <result property="weixinName"    column="weixin_name"    />
+        <result property="password"    column="password"    />
+        <result property="roleNo"    column="role_no"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectMusicMemberVo">
+        select id, username, nickname, img, is_member, member_time, member_valid_num, phone, weixin_name, password, role_no, remark, create_by, create_time, update_by, update_time, del_flag from music_member
+    </sql>
+
+    <select id="selectMusicMemberList" parameterType="MusicMember" resultMap="MusicMemberResult">
+        <include refid="selectMusicMemberVo"/>
+        <where>  
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="nickname != null  and nickname != ''"> and nickname like concat('%', #{nickname}, '%')</if>
+            <if test="isMember != null  and isMember != ''"> and is_member = #{isMember}</if>
+            <if test="memberTime != null "> and member_time = #{memberTime}</if>
+            <if test="memberValidNum != null  and memberValidNum != ''"> and member_valid_num = #{memberValidNum}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="weixinName != null  and weixinName != ''"> and weixin_name = #{weixinName}</if>
+        </where>
+    </select>
+    
+    <select id="selectMusicMemberById" parameterType="String" resultMap="MusicMemberResult">
+        <include refid="selectMusicMemberVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMusicMember" parameterType="MusicMember">
+        insert into music_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="username != null  and username != ''">username,</if>
+            <if test="nickname != null  and nickname != ''">nickname,</if>
+            <if test="img != null  and img != ''">img,</if>
+            <if test="isMember != null  and isMember != ''">is_member,</if>
+            <if test="memberTime != null ">member_time,</if>
+            <if test="memberValidNum != null  and memberValidNum != ''">member_valid_num,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="weixinName != null  and weixinName != ''">weixin_name,</if>
+            <if test="password != null  and password != ''">password,</if>
+            <if test="roleNo != null  and roleNo != ''">role_no,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="username != null  and username != ''">#{username},</if>
+            <if test="nickname != null  and nickname != ''">#{nickname},</if>
+            <if test="img != null  and img != ''">#{img},</if>
+            <if test="isMember != null  and isMember != ''">#{isMember},</if>
+            <if test="memberTime != null ">#{memberTime},</if>
+            <if test="memberValidNum != null  and memberValidNum != ''">#{memberValidNum},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="weixinName != null  and weixinName != ''">#{weixinName},</if>
+            <if test="password != null  and password != ''">#{password},</if>
+            <if test="roleNo != null  and roleNo != ''">#{roleNo},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMusicMember" parameterType="MusicMember">
+        update music_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null  and username != ''">username = #{username},</if>
+            <if test="nickname != null  and nickname != ''">nickname = #{nickname},</if>
+            <if test="img != null  and img != ''">img = #{img},</if>
+            <if test="isMember != null  and isMember != ''">is_member = #{isMember},</if>
+            <if test="memberTime != null ">member_time = #{memberTime},</if>
+            <if test="memberValidNum != null  and memberValidNum != ''">member_valid_num = #{memberValidNum},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="weixinName != null  and weixinName != ''">weixin_name = #{weixinName},</if>
+            <if test="password != null  and password != ''">password = #{password},</if>
+            <if test="roleNo != null  and roleNo != ''">role_no = #{roleNo},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMusicMemberById" parameterType="String">
+        delete from music_member where id = #{id}
+    </delete>
+
+    <delete id="deleteMusicMemberByIds" parameterType="String">
+        delete from music_member where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

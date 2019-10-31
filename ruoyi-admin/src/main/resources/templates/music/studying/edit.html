@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <th:block th:include="include :: header('修改成员学习列')" />
+    <th:block th:include="include :: header('修改成员学习记录')" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -31,7 +31,7 @@
     </div>
     <th:block th:include="include :: footer" />
     <script type="text/javascript">
-        var prefix = ctx + "system/studying";
+        var prefix = ctx + "music/studying";
         $("#form-studying-edit").validate({
             focusCleanup: true
         });

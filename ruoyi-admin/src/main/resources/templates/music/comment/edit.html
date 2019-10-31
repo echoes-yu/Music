@@ -10,19 +10,29 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">上一级评论编号：</label>
                 <div class="col-sm-8">
-                    <input name="pid" th:field="*{pid}" class="form-control" type="text">
+                    <div class="input-group">
+                        <input id="treeId" name="pid" type="hidden" th:field="*{pid}" />
+                        <input class="form-control" type="text" onclick="selectCommentTree()" id="treeName" readonly="true" th:field="*{parentName}">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    </div>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">题目编号：</label>
                 <div class="col-sm-8">
-                    <input name="itemId" th:field="*{itemId}" class="form-control" type="text">
+                    <select name="itemId" class="form-control m-b">
+                        <option value="">所有</option>
+                    </select>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">评论者编号：</label>
                 <div class="col-sm-8">
-                    <input name="userId" th:field="*{userId}" class="form-control" type="text">
+                    <select name="userId" class="form-control m-b">
+                        <option value="">所有</option>
+                    </select>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
                 </div>
             </div>
             <div class="form-group">
@@ -35,7 +45,7 @@
     </div>
     <th:block th:include="include :: footer" />
     <script type="text/javascript">
-        var prefix = ctx + "system/comment";
+        var prefix = ctx + "music/comment";
         $("#form-comment-edit").validate({
             focusCleanup: true
         });
@@ -44,6 +54,24 @@
             if ($.validate.form()) {
                 $.operate.save(prefix + "/edit", $('#form-comment-edit').serialize());
             }
+        }
+
+        /*评论列-新增-选择父部门树*/
+        function selectCommentTree() {
+            var options = {
+                title: '评论列选择',
+                width: "380",
+                url: prefix + "/selectCommentTree/" + $("#treeId").val(),
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+
+        function doSubmit(index, layero){
+            var body = layer.getChildFrame('body', index);
+               $("#treeId").val(body.find('#treeId').val());
+               $("#treeName").val(body.find('#treeName').val());
+               layer.close(index);
         }
     </script>
 </body>

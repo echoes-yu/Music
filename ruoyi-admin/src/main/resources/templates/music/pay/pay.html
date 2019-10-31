@@ -14,19 +14,11 @@
                                 <p>用户编号：</p>
                                 <input type="text" name="userId"/>
                             </li>
-                            <li>
-                                <p>支付金额：</p>
-                                <input type="text" name="payMoney"/>
-                            </li>
                             <li class="select-time">
                                 <p>支付时间：</p>
                                 <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginPayTime]"/>
                                 <span>-</span>
                                 <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endPayTime]"/>
-                            </li>
-                            <li>
-                                <p>支付信息：</p>
-                                <input type="text" name="payMsg"/>
                             </li>
                             <li>
                                 <p>支付类型：</p>
@@ -36,8 +28,8 @@
                                 </select>
                             </li>
                             <li>
-                                <p>会员有效时长：</p>
-                                <input type="text" name="memberValidNum"/>
+                                <p>订单流水号：</p>
+                                <input type="text" name="orderId"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -49,16 +41,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:pay:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="music:pay:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:pay:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="music:pay:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:pay:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="music:pay:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:pay:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="music:pay:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -69,10 +61,10 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:pay:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:pay:remove')}]];
+        var editFlag = [[${@permission.hasPermi('music:pay:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('music:pay:remove')}]];
         var payTypeDatas = [[${@dict.getType('music_pay_type')}]];
-        var prefix = ctx + "system/pay";
+        var prefix = ctx + "music/pay";
 
         $(function() {
             var options = {
@@ -112,6 +104,10 @@
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(payTypeDatas, value);
                     }
+                },
+                {
+                    field : 'orderId', 
+                    title : '订单流水号'
                 },
                 {
                     field : 'memberValidNum', 

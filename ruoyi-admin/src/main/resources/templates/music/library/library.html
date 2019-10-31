@@ -12,14 +12,14 @@
                         <ul>
                             <li>
                                 <p>训练中心类型：</p>
-                                <select name="ptype" th:with="type=${@dict.getType('')}">
+                                <select name="ptype" th:with="type=${@dict.getType('music_type')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
                                 <p>训练类型：</p>
-                                <select name="type" th:with="type=${@dict.getType('')}">
+                                <select name="type" th:with="type=${@dict.getType('training_center_type')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
@@ -49,16 +49,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:library:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="music:library:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:library:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="music:library:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:library:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="music:library:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:library:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="music:library:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -69,9 +69,11 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:library:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:library:remove')}]];
-        var prefix = ctx + "system/library";
+        var editFlag = [[${@permission.hasPermi('music:library:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('music:library:remove')}]];
+        var ptypeDatas = [[${@dict.getType('music_type')}]];
+        var typeDatas = [[${@dict.getType('training_center_type')}]];
+        var prefix = ctx + "music/library";
 
         $(function() {
             var options = {
@@ -91,11 +93,17 @@
                 },
                 {
                     field : 'ptype', 
-                    title : '训练中心类型'
+                    title : '训练中心类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(ptypeDatas, value);
+                    }
                 },
                 {
                     field : 'type', 
-                    title : '训练类型'
+                    title : '训练类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(typeDatas, value);
+                    }
                 },
                 {
                     field : 'trainingType', 

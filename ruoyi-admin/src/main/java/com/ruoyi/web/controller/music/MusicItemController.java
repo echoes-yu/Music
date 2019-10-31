@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.music;
 
-import java.util.List;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -10,32 +9,34 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.music.domain.MusicItem;
 import com.ruoyi.music.service.IMusicItemService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 
 /**
- * 音乐试题Controller
+ * 音乐试题模块
  * 
  * @author linpq
- * @date 2019-10-27
+ * @date 2019-10-31
  */
-@Controller
-@RequestMapping("/system/item")
+@Api("音乐试题")
+@RestController
+@RequestMapping("/music/item")
 public class MusicItemController extends BaseController
 {
-    private String prefix = "system/item";
+    private String prefix = "music/item";
 
     @Autowired
     private IMusicItemService musicItemService;
 
-    @RequiresPermissions("system:item:view")
+    @RequiresPermissions("music:item:view")
     @GetMapping()
     public String item()
     {
@@ -45,9 +46,9 @@ public class MusicItemController extends BaseController
     /**
      * 查询音乐试题列表
      */
-    @RequiresPermissions("system:item:list")
+    @RequiresPermissions("music:item:list")
     @PostMapping("/list")
-    @ResponseBody
+    @ApiOperation("查询音乐试题列表")
     public TableDataInfo list(MusicItem musicItem)
     {
         startPage();
@@ -58,9 +59,9 @@ public class MusicItemController extends BaseController
     /**
      * 导出音乐试题列表
      */
-    @RequiresPermissions("system:item:export")
+    @RequiresPermissions("music:item:export")
     @PostMapping("/export")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicItem", value = "", required = true, dataType = "MusicItem", paramType = "path")
     public AjaxResult export(MusicItem musicItem)
     {
         List<MusicItem> list = musicItemService.selectMusicItemList(musicItem);
@@ -80,10 +81,10 @@ public class MusicItemController extends BaseController
     /**
      * 新增保存音乐试题
      */
-    @RequiresPermissions("system:item:add")
+    @RequiresPermissions("music:item:add")
     @Log(title = "音乐试题", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicItem", value = "新增保存音乐试题", required = true, dataType = "MusicItem")
     public AjaxResult addSave(MusicItem musicItem)
     {
         return toAjax(musicItemService.insertMusicItem(musicItem));
@@ -93,20 +94,20 @@ public class MusicItemController extends BaseController
      * 修改音乐试题
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") String id, ModelMap mmap)
+    public String edit(@PathVariable("id") String id, ModelMap map)
     {
         MusicItem musicItem = musicItemService.selectMusicItemById(id);
-        mmap.put("musicItem", musicItem);
+        map.put("musicItem", musicItem);
         return prefix + "/edit";
     }
 
     /**
      * 修改保存音乐试题
      */
-    @RequiresPermissions("system:item:edit")
+    @RequiresPermissions("music:item:edit")
     @Log(title = "音乐试题", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicItem", value = "修改保存音乐试题",required = true,dataType = "MusicItem")
     public AjaxResult editSave(MusicItem musicItem)
     {
         return toAjax(musicItemService.updateMusicItem(musicItem));
@@ -115,10 +116,11 @@ public class MusicItemController extends BaseController
     /**
      * 删除音乐试题
      */
-    @RequiresPermissions("system:item:remove")
+    @RequiresPermissions("music:item:remove")
     @Log(title = "音乐试题", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
-    @ResponseBody
+    @ApiOperation("删除音乐试题")
+    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicItemService.deleteMusicItemByIds(ids));

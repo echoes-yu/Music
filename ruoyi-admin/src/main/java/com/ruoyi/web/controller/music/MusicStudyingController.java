@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.music;
 
-import java.util.List;
 
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -10,32 +9,34 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.music.domain.MusicStudying;
 import com.ruoyi.music.service.IMusicStudyingService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 
 /**
- * 成员学习列Controller
+ * 成员学习记录模块
  * 
  * @author linpq
- * @date 2019-10-27
+ * @date 2019-10-31
  */
-@Controller
-@RequestMapping("/system/studying")
+@Api("成员学习记录")
+@RestController
+@RequestMapping("/music/studying")
 public class MusicStudyingController extends BaseController
 {
-    private String prefix = "system/studying";
+    private String prefix = "music/studying";
 
     @Autowired
     private IMusicStudyingService musicStudyingService;
 
-    @RequiresPermissions("system:studying:view")
+    @RequiresPermissions("music:studying:view")
     @GetMapping()
     public String studying()
     {
@@ -43,11 +44,11 @@ public class MusicStudyingController extends BaseController
     }
 
     /**
-     * 查询成员学习列列表
+     * 查询成员学习记录列表
      */
-    @RequiresPermissions("system:studying:list")
+    @RequiresPermissions("music:studying:list")
     @PostMapping("/list")
-    @ResponseBody
+    @ApiOperation("查询成员学习记录列表")
     public TableDataInfo list(MusicStudying musicStudying)
     {
         startPage();
@@ -56,11 +57,11 @@ public class MusicStudyingController extends BaseController
     }
 
     /**
-     * 导出成员学习列列表
+     * 导出成员学习记录列表
      */
-    @RequiresPermissions("system:studying:export")
+    @RequiresPermissions("music:studying:export")
     @PostMapping("/export")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicStudying", value = "", required = true, dataType = "MusicStudying", paramType = "path")
     public AjaxResult export(MusicStudying musicStudying)
     {
         List<MusicStudying> list = musicStudyingService.selectMusicStudyingList(musicStudying);
@@ -69,7 +70,7 @@ public class MusicStudyingController extends BaseController
     }
 
     /**
-     * 新增成员学习列
+     * 新增成员学习记录
      */
     @GetMapping("/add")
     public String add()
@@ -78,47 +79,48 @@ public class MusicStudyingController extends BaseController
     }
 
     /**
-     * 新增保存成员学习列
+     * 新增保存成员学习记录
      */
-    @RequiresPermissions("system:studying:add")
-    @Log(title = "成员学习列", businessType = BusinessType.INSERT)
+    @RequiresPermissions("music:studying:add")
+    @Log(title = "成员学习记录", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicStudying", value = "新增保存成员学习记录", required = true, dataType = "MusicStudying")
     public AjaxResult addSave(MusicStudying musicStudying)
     {
         return toAjax(musicStudyingService.insertMusicStudying(musicStudying));
     }
 
     /**
-     * 修改成员学习列
+     * 修改成员学习记录
      */
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") String id, ModelMap mmap)
+    public String edit(@PathVariable("id") String id, ModelMap map)
     {
         MusicStudying musicStudying = musicStudyingService.selectMusicStudyingById(id);
-        mmap.put("musicStudying", musicStudying);
+        map.put("musicStudying", musicStudying);
         return prefix + "/edit";
     }
 
     /**
-     * 修改保存成员学习列
+     * 修改保存成员学习记录
      */
-    @RequiresPermissions("system:studying:edit")
-    @Log(title = "成员学习列", businessType = BusinessType.UPDATE)
+    @RequiresPermissions("music:studying:edit")
+    @Log(title = "成员学习记录", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
-    @ResponseBody
+    @ApiImplicitParam(name = "musicStudying", value = "修改保存成员学习记录", required = true,dataType = "MusicStudying")
     public AjaxResult editSave(MusicStudying musicStudying)
     {
         return toAjax(musicStudyingService.updateMusicStudying(musicStudying));
     }
 
     /**
-     * 删除成员学习列
+     * 删除成员学习记录
      */
-    @RequiresPermissions("system:studying:remove")
-    @Log(title = "成员学习列", businessType = BusinessType.DELETE)
+    @RequiresPermissions("music:studying:remove")
+    @Log(title = "成员学习记录", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
-    @ResponseBody
+    @ApiOperation("删除成员学习记录")
+    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicStudyingService.deleteMusicStudyingByIds(ids));
