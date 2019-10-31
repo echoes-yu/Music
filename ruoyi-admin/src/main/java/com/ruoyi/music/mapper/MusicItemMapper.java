@@ -1,18 +1,15 @@
 package com.ruoyi.music.mapper;
 
 import com.ruoyi.music.domain.MusicItem;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 /**
  * 音乐试题Mapper接口
  * 
- * @author linpq
- * @date 2019-10-27
+ * @author echoyu
+ * @date 2019-10-31
  */
-@Repository
-public interface MusicItemMapper
+public interface MusicItemMapper 
 {
     /**
      * 查询音乐试题

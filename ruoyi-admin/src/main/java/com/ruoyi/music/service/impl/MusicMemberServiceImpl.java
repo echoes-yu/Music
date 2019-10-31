@@ -15,7 +15,7 @@ import com.ruoyi.common.utils.IdGenerate;
 /**
  * 音乐会员Service业务层处理
  *
- * @author linpq
+ * @author echoyu
  * @date 2019-10-30
  */
 @Service

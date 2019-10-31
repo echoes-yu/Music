@@ -7,7 +7,7 @@ import com.ruoyi.common.core.domain.Ztree;
 /**
  * 评论列Service接口
  * 
- * @author linpq
+ * @author echoyu
  * @date 2019-10-31
  */
 public interface IMusicCommentService 

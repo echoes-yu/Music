@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ import java.util.List;
  * @date 2019-10-31
  */
 @Api("买会员的订单情况")
-@RestController
+@Controller
 @RequestMapping("/music/order")
 public class MusicOrderController extends BaseController
 {
@@ -49,6 +50,7 @@ public class MusicOrderController extends BaseController
     @RequiresPermissions("music:order:list")
     @PostMapping("/list")
     @ApiOperation("查询买会员的订单情况列表")
+    @ResponseBody
     public TableDataInfo list(MusicOrder musicOrder)
     {
         startPage();
@@ -61,7 +63,8 @@ public class MusicOrderController extends BaseController
      */
     @RequiresPermissions("music:order:export")
     @PostMapping("/export")
-    @ApiImplicitParam(name = "musicOrder", value = "", required = true, dataType = "MusicOrder", paramType = "path")
+    @ApiOperation("导出买会员的订单情况")
+    @ResponseBody
     public AjaxResult export(MusicOrder musicOrder)
     {
         List<MusicOrder> list = musicOrderService.selectMusicOrderList(musicOrder);
@@ -84,7 +87,8 @@ public class MusicOrderController extends BaseController
     @RequiresPermissions("music:order:add")
     @Log(title = "买会员的订单情况", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ApiImplicitParam(name = "musicOrder", value = "新增保存买会员的订单情况", required = true, dataType = "MusicOrder")
+    @ApiOperation("新增保存买会员的订单情况")
+    @ResponseBody
     public AjaxResult addSave(MusicOrder musicOrder)
     {
         return toAjax(musicOrderService.insertMusicOrder(musicOrder));
@@ -107,7 +111,7 @@ public class MusicOrderController extends BaseController
     @RequiresPermissions("music:order:edit")
     @Log(title = "买会员的订单情况", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
-    @ApiImplicitParam(name = "musicOrder", value = "修改保存买会员的订单情况", required = true, dataType = "MusicOrder")
+    @ApiImplicitParam(name = "musicOrder", value = "修改保存买会员的订单情况", required = true,dataType = "MusicOrder")
     public AjaxResult editSave(MusicOrder musicOrder)
     {
         return toAjax(musicOrderService.updateMusicOrder(musicOrder));
@@ -120,7 +124,6 @@ public class MusicOrderController extends BaseController
     @Log(title = "买会员的订单情况", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ApiOperation("删除买会员的订单情况")
-    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicOrderService.deleteMusicOrderByIds(ids));

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 支付信息Service业务层处理
  *
- * @author linpq
+ * @author echoyu
  * @date 2019-10-27
  */
 @Service

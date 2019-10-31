@@ -1,14 +1,13 @@
 package com.ruoyi.music.mapper;
 
 import com.ruoyi.music.domain.MusicPay;
-
 import java.util.List;
 
 /**
  * 支付信息Mapper接口
  * 
- * @author linpq
- * @date 2019-10-27
+ * @author echoyu
+ * @date 2019-10-31
  */
 public interface MusicPayMapper 
 {

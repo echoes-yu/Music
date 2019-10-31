@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 学考咨询Service业务层处理
  *
- * @author linpq
+ * @author echoyu
  * @date 2019-10-27
  */
 @Service

@@ -1,14 +1,13 @@
 package com.ruoyi.music.service;
 
 import com.ruoyi.music.domain.MusicConsultation;
-
 import java.util.List;
 
 /**
  * 学考咨询Service接口
  * 
- * @author linpq
- * @date 2019-10-27
+ * @author echoyu
+ * @date 2019-10-31
  */
 public interface IMusicConsultationService 
 {

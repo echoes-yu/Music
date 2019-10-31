@@ -1,18 +1,15 @@
 package com.ruoyi.music.mapper;
 
 import com.ruoyi.music.domain.MusicConsultation;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 /**
  * 学考咨询Mapper接口
  * 
- * @author linpq
- * @date 2019-10-27
+ * @author echoyu
+ * @date 2019-10-31
  */
-@Repository
-public interface MusicConsultationMapper
+public interface MusicConsultationMapper 
 {
     /**
      * 查询学考咨询

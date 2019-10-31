@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +24,11 @@ import java.util.List;
 /**
  * 成员学习记录模块
  * 
- * @author linpq
+ * @author echoyu
  * @date 2019-10-31
  */
 @Api("成员学习记录")
-@RestController
+@Controller
 @RequestMapping("/music/studying")
 public class MusicStudyingController extends BaseController
 {
@@ -49,6 +50,7 @@ public class MusicStudyingController extends BaseController
     @RequiresPermissions("music:studying:list")
     @PostMapping("/list")
     @ApiOperation("查询成员学习记录列表")
+    @ResponseBody
     public TableDataInfo list(MusicStudying musicStudying)
     {
         startPage();
@@ -61,7 +63,8 @@ public class MusicStudyingController extends BaseController
      */
     @RequiresPermissions("music:studying:export")
     @PostMapping("/export")
-    @ApiImplicitParam(name = "musicStudying", value = "", required = true, dataType = "MusicStudying", paramType = "path")
+    @ApiOperation("导出成员学习记录")
+    @ResponseBody
     public AjaxResult export(MusicStudying musicStudying)
     {
         List<MusicStudying> list = musicStudyingService.selectMusicStudyingList(musicStudying);
@@ -84,7 +87,8 @@ public class MusicStudyingController extends BaseController
     @RequiresPermissions("music:studying:add")
     @Log(title = "成员学习记录", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ApiImplicitParam(name = "musicStudying", value = "新增保存成员学习记录", required = true, dataType = "MusicStudying")
+    @ApiOperation("新增保存成员学习记录")
+    @ResponseBody
     public AjaxResult addSave(MusicStudying musicStudying)
     {
         return toAjax(musicStudyingService.insertMusicStudying(musicStudying));
@@ -120,7 +124,6 @@ public class MusicStudyingController extends BaseController
     @Log(title = "成员学习记录", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ApiOperation("删除成员学习记录")
-    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicStudyingService.deleteMusicStudyingByIds(ids));

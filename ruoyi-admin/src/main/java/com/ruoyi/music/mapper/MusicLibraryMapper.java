@@ -1,14 +1,13 @@
 package com.ruoyi.music.mapper;
 
 import com.ruoyi.music.domain.MusicLibrary;
-
 import java.util.List;
 
 /**
  * 音乐题库Mapper接口
  * 
- * @author linpq
- * @date 2019-10-27
+ * @author echoyu
+ * @date 2019-10-31
  */
 public interface MusicLibraryMapper 
 {

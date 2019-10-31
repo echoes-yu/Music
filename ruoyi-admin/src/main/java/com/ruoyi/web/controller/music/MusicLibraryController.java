@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +24,11 @@ import java.util.List;
 /**
  * 音乐题库模块
  * 
- * @author linpq
+ * @author echoyu
  * @date 2019-10-31
  */
 @Api("音乐题库")
-@RestController
+@Controller
 @RequestMapping("/music/library")
 public class MusicLibraryController extends BaseController
 {
@@ -49,6 +50,7 @@ public class MusicLibraryController extends BaseController
     @RequiresPermissions("music:library:list")
     @PostMapping("/list")
     @ApiOperation("查询音乐题库列表")
+    @ResponseBody
     public TableDataInfo list(MusicLibrary musicLibrary)
     {
         startPage();
@@ -61,7 +63,8 @@ public class MusicLibraryController extends BaseController
      */
     @RequiresPermissions("music:library:export")
     @PostMapping("/export")
-    @ApiImplicitParam(name = "musicLibrary", value = "", required = true, dataType = "MusicLibrary", paramType = "path")
+    @ApiOperation("导出音乐题库")
+    @ResponseBody
     public AjaxResult export(MusicLibrary musicLibrary)
     {
         List<MusicLibrary> list = musicLibraryService.selectMusicLibraryList(musicLibrary);
@@ -84,7 +87,8 @@ public class MusicLibraryController extends BaseController
     @RequiresPermissions("music:library:add")
     @Log(title = "音乐题库", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ApiImplicitParam(name = "musicLibrary", value = "新增保存音乐题库", required = true, dataType = "MusicLibrary")
+    @ApiOperation("新增保存音乐题库")
+    @ResponseBody
     public AjaxResult addSave(MusicLibrary musicLibrary)
     {
         return toAjax(musicLibraryService.insertMusicLibrary(musicLibrary));
@@ -107,7 +111,7 @@ public class MusicLibraryController extends BaseController
     @RequiresPermissions("music:library:edit")
     @Log(title = "音乐题库", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
-    @ApiImplicitParam(name = "musicLibrary", value = "修改保存音乐题库", required = true, dataType = "MusicLibrary")
+    @ApiImplicitParam(name = "musicLibrary", value = "修改保存音乐题库", required = true,dataType = "MusicLibrary")
     public AjaxResult editSave(MusicLibrary musicLibrary)
     {
         return toAjax(musicLibraryService.updateMusicLibrary(musicLibrary));
@@ -120,7 +124,6 @@ public class MusicLibraryController extends BaseController
     @Log(title = "音乐题库", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ApiOperation("删除音乐题库")
-    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicLibraryService.deleteMusicLibraryByIds(ids));

@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ import java.util.List;
  * @date 2019-10-31
  */
 @Api("学考咨询")
-@RestController
+@Controller
 @RequestMapping("/music/consultation")
 public class MusicConsultationController extends BaseController
 {
@@ -49,6 +50,7 @@ public class MusicConsultationController extends BaseController
     @RequiresPermissions("music:consultation:list")
     @PostMapping("/list")
     @ApiOperation("查询学考咨询列表")
+    @ResponseBody
     public TableDataInfo list(MusicConsultation musicConsultation)
     {
         startPage();
@@ -61,7 +63,8 @@ public class MusicConsultationController extends BaseController
      */
     @RequiresPermissions("music:consultation:export")
     @PostMapping("/export")
-    @ApiImplicitParam(name = "musicConsultation", value = "", required = true, dataType = "MusicConsultation", paramType = "path")
+    @ApiOperation("导出学考咨询")
+    @ResponseBody
     public AjaxResult export(MusicConsultation musicConsultation)
     {
         List<MusicConsultation> list = musicConsultationService.selectMusicConsultationList(musicConsultation);
@@ -84,7 +87,8 @@ public class MusicConsultationController extends BaseController
     @RequiresPermissions("music:consultation:add")
     @Log(title = "学考咨询", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ApiImplicitParam(name = "musicConsultation", value = "新增保存学考咨询", required = true, dataType = "MusicConsultation")
+    @ApiOperation("新增保存学考咨询")
+    @ResponseBody
     public AjaxResult addSave(MusicConsultation musicConsultation)
     {
         return toAjax(musicConsultationService.insertMusicConsultation(musicConsultation));
@@ -120,7 +124,6 @@ public class MusicConsultationController extends BaseController
     @Log(title = "学考咨询", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ApiOperation("删除学考咨询")
-    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicConsultationService.deleteMusicConsultationByIds(ids));

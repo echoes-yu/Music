@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +24,11 @@ import java.util.List;
 /**
  * 音乐试题模块
  * 
- * @author linpq
+ * @author echoyu
  * @date 2019-10-31
  */
 @Api("音乐试题")
-@RestController
+@Controller
 @RequestMapping("/music/item")
 public class MusicItemController extends BaseController
 {
@@ -49,6 +50,7 @@ public class MusicItemController extends BaseController
     @RequiresPermissions("music:item:list")
     @PostMapping("/list")
     @ApiOperation("查询音乐试题列表")
+    @ResponseBody
     public TableDataInfo list(MusicItem musicItem)
     {
         startPage();
@@ -61,7 +63,8 @@ public class MusicItemController extends BaseController
      */
     @RequiresPermissions("music:item:export")
     @PostMapping("/export")
-    @ApiImplicitParam(name = "musicItem", value = "", required = true, dataType = "MusicItem", paramType = "path")
+    @ApiOperation("导出音乐试题")
+    @ResponseBody
     public AjaxResult export(MusicItem musicItem)
     {
         List<MusicItem> list = musicItemService.selectMusicItemList(musicItem);
@@ -84,7 +87,8 @@ public class MusicItemController extends BaseController
     @RequiresPermissions("music:item:add")
     @Log(title = "音乐试题", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ApiImplicitParam(name = "musicItem", value = "新增保存音乐试题", required = true, dataType = "MusicItem")
+    @ApiOperation("新增保存音乐试题")
+    @ResponseBody
     public AjaxResult addSave(MusicItem musicItem)
     {
         return toAjax(musicItemService.insertMusicItem(musicItem));
@@ -107,7 +111,7 @@ public class MusicItemController extends BaseController
     @RequiresPermissions("music:item:edit")
     @Log(title = "音乐试题", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
-    @ApiImplicitParam(name = "musicItem", value = "修改保存音乐试题",required = true,dataType = "MusicItem")
+    @ApiImplicitParam(name = "musicItem", value = "修改保存音乐试题", required = true,dataType = "MusicItem")
     public AjaxResult editSave(MusicItem musicItem)
     {
         return toAjax(musicItemService.updateMusicItem(musicItem));
@@ -120,7 +124,6 @@ public class MusicItemController extends BaseController
     @Log(title = "音乐试题", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ApiOperation("删除音乐试题")
-    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicItemService.deleteMusicItemByIds(ids));

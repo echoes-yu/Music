@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +25,11 @@ import java.util.List;
 /**
  * 评论列模块
  * 
- * @author linpq
+ * @author echoyu
  * @date 2019-10-31
  */
 @Api("评论列")
-@RestController
+@Controller
 @RequestMapping("/music/comment")
 public class MusicCommentController extends BaseController
 {
@@ -61,7 +62,8 @@ public class MusicCommentController extends BaseController
      */
     @RequiresPermissions("music:comment:export")
     @PostMapping("/export")
-    @ApiImplicitParam(name = "musicComment", value = "", required = true, dataType = "MusicComment", paramType = "path")
+    @ApiOperation("导出评论列")
+    @ResponseBody
     public AjaxResult export(MusicComment musicComment)
     {
         List<MusicComment> list = musicCommentService.selectMusicCommentList(musicComment);
@@ -89,7 +91,8 @@ public class MusicCommentController extends BaseController
     @RequiresPermissions("music:comment:add")
     @Log(title = "评论列", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ApiImplicitParam(name = "musicComment", value = "新增保存评论列", required = true, dataType = "MusicComment")
+    @ApiOperation("新增保存评论列")
+    @ResponseBody
     public AjaxResult addSave(MusicComment musicComment)
     {
         return toAjax(musicCommentService.insertMusicComment(musicComment));
@@ -124,8 +127,8 @@ public class MusicCommentController extends BaseController
     @RequiresPermissions("music:comment:remove")
     @Log(title = "评论列", businessType = BusinessType.DELETE)
     @GetMapping("/remove/{id}")
-    @ApiImplicitParam(name = "id", value = "编号", required = true, dataType = "String", paramType = "path")
-
+    @ApiOperation("删除评论列")
+    @ResponseBody
     public AjaxResult remove(@PathVariable("id") String id)
     {
         return toAjax(musicCommentService.deleteMusicCommentById(id));

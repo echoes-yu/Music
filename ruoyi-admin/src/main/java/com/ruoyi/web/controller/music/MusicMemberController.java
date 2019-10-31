@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ import java.util.List;
  * @date 2019-10-31
  */
 @Api("音乐会员")
-@RestController
+@Controller
 @RequestMapping("/music/member")
 public class MusicMemberController extends BaseController
 {
@@ -49,6 +50,7 @@ public class MusicMemberController extends BaseController
     @RequiresPermissions("music:member:list")
     @PostMapping("/list")
     @ApiOperation("查询音乐会员列表")
+    @ResponseBody
     public TableDataInfo list(MusicMember musicMember)
     {
         startPage();
@@ -61,7 +63,8 @@ public class MusicMemberController extends BaseController
      */
     @RequiresPermissions("music:member:export")
     @PostMapping("/export")
-    @ApiImplicitParam(name = "musicMember", value = "", required = true, dataType = "MusicMember", paramType = "path")
+    @ApiOperation("导出音乐会员")
+    @ResponseBody
     public AjaxResult export(MusicMember musicMember)
     {
         List<MusicMember> list = musicMemberService.selectMusicMemberList(musicMember);
@@ -84,7 +87,8 @@ public class MusicMemberController extends BaseController
     @RequiresPermissions("music:member:add")
     @Log(title = "音乐会员", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ApiImplicitParam(name = "musicMember", value = "新增保存音乐会员", required = true, dataType = "MusicMember")
+    @ApiOperation("新增保存音乐会员")
+    @ResponseBody
     public AjaxResult addSave(MusicMember musicMember)
     {
         return toAjax(musicMemberService.insertMusicMember(musicMember));
@@ -107,7 +111,7 @@ public class MusicMemberController extends BaseController
     @RequiresPermissions("music:member:edit")
     @Log(title = "音乐会员", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
-    @ApiImplicitParam(name = "musicMember", value = "修改保存音乐会员", required = true, dataType = "MusicMember")
+    @ApiImplicitParam(name = "musicMember", value = "修改保存音乐会员", required = true,dataType = "MusicMember")
     public AjaxResult editSave(MusicMember musicMember)
     {
         return toAjax(musicMemberService.updateMusicMember(musicMember));
@@ -120,7 +124,6 @@ public class MusicMemberController extends BaseController
     @Log(title = "音乐会员", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ApiOperation("删除音乐会员")
-    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicMemberService.deleteMusicMemberByIds(ids));

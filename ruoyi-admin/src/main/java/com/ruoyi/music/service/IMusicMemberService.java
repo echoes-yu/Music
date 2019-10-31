@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * 音乐会员Service接口
  * 
- * @author linpq
- * @date 2019-10-30
+ * @author echoyu
+ * @date 2019-10-31
  */
 public interface IMusicMemberService 
 {

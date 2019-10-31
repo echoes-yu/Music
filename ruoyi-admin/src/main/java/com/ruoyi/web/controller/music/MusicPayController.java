@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +24,11 @@ import java.util.List;
 /**
  * 支付信息模块
  * 
- * @author linpq
+ * @author echoyu
  * @date 2019-10-31
  */
 @Api("支付信息")
-@RestController
+@Controller
 @RequestMapping("/music/pay")
 public class MusicPayController extends BaseController
 {
@@ -49,6 +50,7 @@ public class MusicPayController extends BaseController
     @RequiresPermissions("music:pay:list")
     @PostMapping("/list")
     @ApiOperation("查询支付信息列表")
+    @ResponseBody
     public TableDataInfo list(MusicPay musicPay)
     {
         startPage();
@@ -61,7 +63,8 @@ public class MusicPayController extends BaseController
      */
     @RequiresPermissions("music:pay:export")
     @PostMapping("/export")
-    @ApiImplicitParam(name = "musicPay", value = "", required = true, dataType = "MusicPay", paramType = "path")
+    @ApiOperation("导出支付信息")
+    @ResponseBody
     public AjaxResult export(MusicPay musicPay)
     {
         List<MusicPay> list = musicPayService.selectMusicPayList(musicPay);
@@ -84,7 +87,8 @@ public class MusicPayController extends BaseController
     @RequiresPermissions("music:pay:add")
     @Log(title = "支付信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    @ApiImplicitParam(name = "musicPay", value = "新增保存支付信息", required = true, dataType = "MusicPay")
+    @ApiOperation("新增保存支付信息")
+    @ResponseBody
     public AjaxResult addSave(MusicPay musicPay)
     {
         return toAjax(musicPayService.insertMusicPay(musicPay));
@@ -107,7 +111,7 @@ public class MusicPayController extends BaseController
     @RequiresPermissions("music:pay:edit")
     @Log(title = "支付信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
-    @ApiImplicitParam(name = "musicPay", value = "修改保存支付信息", required = true, dataType = "MusicPay")
+    @ApiImplicitParam(name = "musicPay", value = "修改保存支付信息", required = true,dataType = "MusicPay")
     public AjaxResult editSave(MusicPay musicPay)
     {
         return toAjax(musicPayService.updateMusicPay(musicPay));
@@ -120,7 +124,6 @@ public class MusicPayController extends BaseController
     @Log(title = "支付信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ApiOperation("删除支付信息")
-    @ApiImplicitParam(name = "ids", value = "编号", required = true, dataType = "String", paramType = "path")
     public AjaxResult remove(String ids)
     {
         return toAjax(musicPayService.deleteMusicPayByIds(ids));
